@@ -1,0 +1,38 @@
+name: generate-prompt
+on:
+  workflow_dispatch:
+    inputs:
+      step:
+        description: 'Workflow step number to run'
+        required: true
+        type: number
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 선택 1) Python 스크립트가 JSON 파일 경로를 직접 열어 읽게 하기
+      - name: Build prompt (file path 방식)
+        run: |
+          python scripts/build_prompt.py \
+            --json-file workflow.json \
+            --step "${{ inputs.step }}"
+
+      # ─────────────────────────────────────────────────────────────
+      # 선택 2) JSON을 Action 환경변수로 읽어서 one-liner(minify)로 전달
+      # 필요하다면 jq -c 로 줄바꿈 제거
+      - name: Read template to env (선택)
+        id: tmpl
+        run: |
+          TEMPLATE=$(jq -c . workflow.json)
+          echo "template=$TEMPLATE" >> "$GITHUB_OUTPUT"
+
+      - name: Build prompt (env 방식)
+        if: false  # 위 방식만 쓴다면 끄세요
+        run: |
+          python scripts/build_prompt.py \
+            --json '${{ steps.tmpl.outputs.template }}' \
+            --step "${{ inputs.step }}"
