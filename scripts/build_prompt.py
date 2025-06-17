@@ -93,13 +93,13 @@ def main():
         sys.exit(1)
 
     print(f"▶️  o3 요청 중… (step {args.step}, max_tokens={args.max_tokens})", file=sys.stderr)
-     response = openai.chat.completions.create(
+    response = openai.chat.completions.create(
         model="o3",
         messages=[
             {"role": "system", "content": "You are an expert educational content generator."},
-            {"role": "user", "content": final_prompt},
+            {"role": "user", "content": final_prompt}
         ],
-        max_completion_tokens=args.max_tokens,
+        max_completion_tokens=args.max_tokens,   # ← max_tokens → max_completion_tokens
         temperature=args.temperature,
     )
     content = response.choices[0].message.content.strip()
