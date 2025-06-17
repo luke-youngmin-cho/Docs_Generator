@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       step:
-        description: 'Workflow step number to run'
-        required: true
         type: number
+        required: true
 
 jobs:
   build:
@@ -14,25 +13,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 선택 1) Python 스크립트가 JSON 파일 경로를 직접 열어 읽게 하기
-      - name: Build prompt (file path 방식)
+      # (1) 파이썬 버전 명시
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # (2) 의존 설치
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # (3) 프롬프트 빌더 실행
+      - name: Build prompt
         run: |
           python scripts/build_prompt.py \
-            --json-file workflow.json \
-            --step "${{ inputs.step }}"
-
-      # ─────────────────────────────────────────────────────────────
-      # 선택 2) JSON을 Action 환경변수로 읽어서 one-liner(minify)로 전달
-      # 필요하다면 jq -c 로 줄바꿈 제거
-      - name: Read template to env (선택)
-        id: tmpl
-        run: |
-          TEMPLATE=$(jq -c . workflow.json)
-          echo "template=$TEMPLATE" >> "$GITHUB_OUTPUT"
-
-      - name: Build prompt (env 방식)
-        if: false  # 위 방식만 쓴다면 끄세요
-        run: |
-          python scripts/build_prompt.py \
-            --json '${{ steps.tmpl.outputs.template }}' \
-            --step "${{ inputs.step }}"
+            --json workflow_template.json \
+            --step "${{ inputs.step }}" \
+            --var topic="테스트" \
+            --out units/step_${{ inputs.step }}_draft.md
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
