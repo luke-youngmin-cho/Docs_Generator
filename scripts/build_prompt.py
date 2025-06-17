@@ -99,7 +99,7 @@ def main():
             {"role": "system", "content": "You are an expert educational content generator."},
             {"role": "user", "content": final_prompt}
         ],
-        max_tokens=args.max_tokens,
+        max_completion_tokens=args.max_tokens,
         temperature=args.temperature,
     )
     content = response.choices[0].message.content.strip()
