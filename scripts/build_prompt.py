@@ -101,7 +101,12 @@ def main():
         ],
         max_completion_tokens=args.max_tokens
     )
-    content = response.choices[0].message.content.strip()
+    content = response.choices[0].message.content or ""
+    content = content.strip()
+
+    print(f"LLM content length = {len(content)}", file=sys.stderr)
+    if len(content) < 20:        # 임의 기준
+        raise RuntimeError("LLM 응답이 비정상적으로 짧습니다. 토큰/쿼터/필터 문제 확인!")
 
     # 4. 저장/출력
     if args.out:
