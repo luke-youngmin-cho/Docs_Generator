@@ -1,0 +1,132 @@
+{
+  "project": "Docs Generator",
+  "workflow": [
+    {
+      "step": 1,
+      "description": "Collect latest resources → Draft curriculum",
+      "assistant_prompt": "Topic: {topic}\nSummarize the latest (within 24 months) references, research, and technology trends, and—based on them—draft a curriculum outline focused on learning objectives, consisting of 5 – 8 major units.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Are the sources within the last 24 months?",
+        "Do the number and order of units align with the learning objectives?",
+        "Are there any duplicated or missing topics?"
+      ]
+    },
+    {
+      "step": 2,
+      "description": "First curriculum review",
+      "assistant_prompt": "Identify issues or potential controversies in the curriculum draft below, then propose corrections with supporting rationale.\n\n```{curriculum}```\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Check for potentially controversial content (copyright, ethics, personal data, etc.)",
+        "Verify difficulty balance",
+        "Is the learning sequence logical?"
+      ]
+    },
+    {
+      "step": 3,
+      "description": "Write detailed unit",
+      "assistant_prompt": "For the unit titled {unit_title} in the curriculum, create a detailed outline that includes learning objectives, key concepts, and an overview of practical exercises.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Are the learning objectives clearly stated?",
+        "Are all key concepts included?",
+        "Are the practice/example directions realistic and implementable?"
+      ]
+    },
+    {
+      "step": 4,
+      "description": "First detailed unit review",
+      "assistant_prompt": "Point out errors or potential controversies in the following detailed unit draft and propose corrections.\n\n```{unit_draft}```\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Check for factual errors or outdated APIs",
+        "Presence of discriminatory or biased expressions",
+        "Appropriateness of learning flow and length"
+      ]
+    },
+    {
+      "step": 5,
+      "description": "Key concept summary",
+      "assistant_prompt": "List and define the core concepts that learners must understand in unit {unit_title}.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Are term definitions accurate and concise?",
+        "Are any essential concepts missing?"
+      ]
+    },
+    {
+      "step": 6,
+      "description": "Compile examples and cases",
+      "assistant_prompt": "For each core concept above, organize (1) a simple hands-on code/experiment that can be run directly and (2) a real-world application case in a table format.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Do the examples use up-to-date language/API versions?",
+        "Are the cases from verifiable industry or open-source sources?",
+        "Is the practice replication difficulty appropriate?"
+      ]
+    },
+    {
+      "step": 7,
+      "description": "Review examples and cases",
+      "assistant_prompt": "Review the following examples and cases for any errors, deprecated APIs, or inappropriate cases.\n\n```{examples}```\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Check for code execution errors",
+        "Presence of outdated APIs that need replacement",
+        "Are the materials free of copyright issues?"
+      ]
+    },
+    {
+      "step": 8,
+      "description": "Write unit document",
+      "assistant_prompt": "Write the entire content of unit {unit_title} in Markdown format. Include an introduction, body (concepts + examples), and conclusion (summary + assignments), using tables, code blocks, and image links where appropriate.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Does the document faithfully follow the introduction-body-conclusion structure?",
+        "Are visual materials (tables, code, images) appropriately placed?",
+        "Are references and citations accurate?"
+      ]
+    },
+    {
+      "step": 9,
+      "description": "Second document review",
+      "assistant_prompt": "Evaluate the overall structure and logical flow of the following document draft and suggest improvements.\n\n```{unit_doc}```\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Need to remove duplicate/unnecessary content?",
+        "Are headings and subheadings readable?",
+        "Is the connection to the next unit natural?"
+      ]
+    },
+    {
+      "step": 10,
+      "description": "Third detailed review",
+      "assistant_prompt": "Review each paragraph, code block, and table in the document and point out detailed errors and improvements. Quote the original text when suggesting changes.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Spelling, notation, and terminology consistency",
+        "Are code comments and explanations sufficient?",
+        "Need screenshots of results for each practice step?"
+      ]
+    },
+    {
+      "step": 11,
+      "description": "Fourth review: overall flow and curriculum fit",
+      "assistant_prompt": "Assess whether the final document for unit {unit_title} fits into the overall curriculum flow and suggest any necessary adjustments.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Verify connections with prerequisite and subsequent content",
+        "Do the unit goals match the original curriculum goals?",
+        "If changes are needed, which steps should be repeated?"
+      ]
+    },
+    {
+      "step": 12,
+      "description": "Adjust curriculum or finalize unit as needed",
+      "assistant_prompt": "Based on the fourth review results, summarize (1) the curriculum changes and (2) the follow-up tasks required for the changes.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Is the reason for curriculum modification clear?",
+        "Analyze the impact of modifications on the overall schedule"
+      ]
+    },
+    {
+      "step": 13,
+      "description": "Repeat for next unit",
+      "assistant_prompt": "We are ready to start the next unit {next_unit_title} from step 4. Please list the required inputs and materials.\n\nPlease answer in Korean.",
+      "review_checklist": [
+        "Are outputs from the previous unit backed up?",
+        "Is a plan in place to collect the latest materials for the next unit?"
+      ]
+    }
+  ]
+}
