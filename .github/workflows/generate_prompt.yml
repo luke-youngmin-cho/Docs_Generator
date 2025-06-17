@@ -34,3 +34,17 @@ jobs:
             --out units/step_${{ inputs.step }}_draft.md
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+      # (4) 결과 커밋 & 푸시
+      - name: Commit draft to repo
+        run: |
+          git config --global user.email "bot@example.com"
+          git config --global user.name  "prompt-bot"
+          # 새 브랜치 (예: prompt/step-1) 생성 ― 이미 브랜치라면 checkout 안 해도 됨
+          git checkout -b prompt/step-${{ inputs.step }} || true
+          git add units/step_${{ inputs.step }}_draft.md
+          git commit -m "feat: step ${{ inputs.step }} draft" || echo "Nothing to commit"
+          git push --set-upstream origin HEAD
+        env:
+          # 레포 쓰기 권한 Personal Access Token(PAT) - 예: GH_PAT
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
