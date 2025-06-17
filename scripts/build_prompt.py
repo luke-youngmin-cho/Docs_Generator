@@ -60,7 +60,7 @@ def select_step_info(template: dict, step: int):
 def main():
     parser = argparse.ArgumentParser(description="Docs Generator prompt builder (o3)")
     parser.add_argument("--json", required=True,
-                        help="workflow_template.json 경로")
+                        help="workflow.json 경로")
     parser.add_argument("--step", type=int, required=True,
                         help="실행할 workflow step 번호")
     parser.add_argument("--var", action="append",
